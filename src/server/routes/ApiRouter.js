@@ -5,7 +5,6 @@ const { authenticateUser } = require('../controllers/Authentication/Authenticati
 
 ApiRouter.get('/', CrudController.getItems, (req, res) => {
   console.log(res.locals.allUsers);
-  console.log('Hello, I am running as a server')
   res.status(200).send(res.locals.allUsers);
 })
 
@@ -29,11 +28,8 @@ ApiRouter.post('/createuser', CrudController.createUser, (req, res) => {
 
 })
 
-ApiRouter.post('/authenticateuser', CrudController.authenticateUser, (req, res) => {
+ApiRouter.post('/login', authenticateUser, (req, res) => {
   res.status(200);
-})
-ApiRouter.post('/login', (req, res) => {
-
 })
 
 ApiRouter.delete('/', CrudController.deleteItem, (req, res) => {

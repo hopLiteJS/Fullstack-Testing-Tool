@@ -1,5 +1,6 @@
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
+const db = require('../../models/TestModel');
 require('dotenv').config();
 // configure the global variable process.env globally.
 class AuthenticationControllerBlueprint {
@@ -20,24 +21,26 @@ class AuthenticationControllerBlueprint {
     }
   }
 
-  setCookie(req, res, next) {
-    // user attempts a login (username, password)
-    // make sure the user is who they say they are (authenticate them).
-    // if the password matches the userName assign them a cookie
-    // else {res.sendStatus(401)}
-    // console.log(`Cookie Values: 'role' = 'admin'`);
 
-    // , { maxAge: 300000, httpOnly: true }
+  async authenticateUser(req, res, next) {
+    const { inputUsername, inputPassword } = req.body;
+    const queryString = `SELECT * FROM credential WHERE username = '${inputUsername}'`;
+    const result = await db.query(queryString);
+    console.log("result.rows[0]: ", result.rows[0]);
+
+    const { username, password } = result.rows[0];
+
+    if (inputUsername === username && inputPassword === password) {
+      res.cookie('role', 'admin').send("Cookie Set.");
+    }
     next();
   }
 }
 
 const AuthenticationController = new AuthenticationControllerBlueprint();
-// const authenticateUser = AuthenticationController.authenticateUser;
-const { setCookie } = AuthenticationController;
+const { authenticateUser } = AuthenticationController;
 // const authenticateToken = AuthenticationController.authenticateToken;
 
 module.exports = {
-  // authenticateUser,
-  setCookie
+  authenticateUser,
 };
