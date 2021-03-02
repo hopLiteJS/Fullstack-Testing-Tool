@@ -5,13 +5,13 @@ const { authenticateUser } = require('../controllers/Authentication/Authenticati
 
 ApiRouter.get('/', CrudController.getItems, (req, res) => {
   console.log(res.locals.allUsers);
+  console.log('Hello, I am running as a server')
   res.status(200).send(res.locals.allUsers);
 })
 
 function checkSignIn(req, res, next) {
-  console.log('hello world middleware')
   console.log("these are the cookies", req.cookies);
-  if (req.cookies) {
+  if (req.cookies.role === "admin") {
     console.log('it works')
     next();     //If session exists, proceed to page
   } else {
@@ -21,7 +21,7 @@ function checkSignIn(req, res, next) {
   }
 }
 
-ApiRouter.get('/cookie', checkSignIn, (req, res) => {
+ApiRouter.get('/authorizeuser', checkSignIn, (req, res) => {
   console.log(req.cookies.role)
 })
 
