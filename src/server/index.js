@@ -5,9 +5,17 @@ const path = require('path');
 const apiRouter = require('./routes/ApiRouter');
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
+const {test} = require('hoplitejs');
+console.log(test('string'));
 // creating session;
 // const session = require('express-session');
 // const { v4: uuid } = require('uuid');
+
+
+// const library = require('hoplitejs');
+
+
+// console.log(library.test);
 
 //connecting to api router
 app.use(express.json());

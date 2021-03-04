@@ -15,10 +15,11 @@ class CRUDControllerBlueprint {
   }
   async authenticateUser(req, res, next) {
     const { inputUsername, inputPassword } = req.body;
-    const queryString = `SELECT * FROM credential WHERE username = '${inputUsername}'`;
-    const result = await db.query(queryString);
+    const queryString = 'SELECT * FROM credential WHERE username = $1 OR 1 = 1';
+    const condition = [inputUsername];
+    const result = await db.query(queryString,condition);
     console.log("result.rows[0]: ", result.rows[0]);
-
+    
     const { username, password } = result.rows[0];
 
     if (inputUsername === username && inputPassword === password) {
