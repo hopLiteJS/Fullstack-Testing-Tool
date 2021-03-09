@@ -4,7 +4,18 @@ const port = 3000;
 const path = require('path');
 const apiRouter = require('./routes/ApiRouter');
 const cookieParser = require('cookie-parser');
+const { DefaultHoplite }  = require('hoplitejs');
+DefaultHoplite.test('hello people');
+const { AuthnController } = DefaultHoplite;
+const { AuthzController } = DefaultHoplite;
+const {HopliteUserSchema } = HopliteUserSchema;
+const authorizationController = require('./controllers/Authorization/AuthorizationController')
+//DefaultHoplite properties:
+//.AuthnController ==> .testAuthn(str)
+//.AuthzController ==> .testAuthz(str)
 app.use(cookieParser());
+AuthzController.testAuthz("auth works")
+AuthnController.testAuthn("authn works")
 // creating session;
 // const session = require('express-session');
 // const { v4: uuid } = require('uuid');
@@ -17,15 +28,27 @@ app.get('/', (req, res) => res.status(200).sendFile(path.resolve(__dirname, '../
 
 app.use('/static', express.static(path.resolve(__dirname, "../public/src")));
 
+const queriedInfo = {
+username: 'max',
+password: '123',
+privilege: true
+}
+const ruleset = {
+cookie:true
+}
+
+function testMiddleWare(queriedInfo){
+ HopliteUserSchema(queriedInfo.username, queriedInfo.password, queriedInfo.privilege)
+ next()
+}
+
 app.use('/api', apiRouter);
-
-
-
-
-
-
+app.post('/testAuthz' , testMiddleWare(queriedInfo) ,AuthnController.authenticate(user,ruleset) ,AuthzController.authorizeCookie,(req,res)=>{
+  
+})
 // // check cookie
 // function checkSignIn(req, res, next) {
+// console.log("🚀 ~ file: index.js ~ line 35 ~ DefaultHoplite", DefaultHoplite)
 //   console.log('hello world middleware')
 //   console.log("these are the cookies", req.cookies)
 //   if (req.cookies === { role: "token" }) {
