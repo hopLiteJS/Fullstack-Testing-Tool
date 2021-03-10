@@ -13,5 +13,8 @@ authorizationController.checkSignIn = function (req, res, next) {
   }
 }
 
+authorizationController.empty = function(req,res,next){
+  next()
+}
 
 module.exports = authorizationController;
