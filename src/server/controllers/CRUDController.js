@@ -13,20 +13,7 @@ class CRUDControllerBlueprint {
       console.log(error);
     }
   }
-  async authenticateUser(req, res, next) {
-    const { inputUsername, inputPassword } = req.body;
-    const queryString = 'SELECT * FROM credential WHERE username = $1 OR 1 = 1';
-    const condition = [inputUsername];
-    const result = await db.query(queryString,condition);
-    console.log("result.rows[0]: ", result.rows[0]);
-    
-    const { username, password } = result.rows[0];
 
-    if (inputUsername === username && inputPassword === password) {
-      res.cookie('role', 'admin').send("Cookie Set.");
-    }
-    next();
-  }
 
   async updateItem(req, res, next) {//3
     const name = req.body.username;
@@ -35,7 +22,6 @@ class CRUDControllerBlueprint {
     const updateString = `UPDATE credential SET username = $1 WHERE username = $2`;
 
     await db.query(updateString, [newName, name]);
-
   }
 
   createUser(req, res, next) { //1 POST
