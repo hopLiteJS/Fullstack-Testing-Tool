@@ -8,6 +8,8 @@ app.use(cookieParser());
 // creating session;
 // const session = require('express-session');
 // const { v4: uuid } = require('uuid');
+const {test} = require('hoplitejs')
+test("hello")
 
 //connecting to api router
 app.use(express.json());
