@@ -36,7 +36,6 @@ class CRUDControllerBlueprint {
         // res.locals.username = data.rows;
         // return next(); 
       })
-
   }
 
   deleteItem(req, res, next) {//4

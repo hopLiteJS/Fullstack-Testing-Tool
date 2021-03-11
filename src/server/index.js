@@ -10,6 +10,7 @@ const { AuthnController } = DefaultHoplite;
 const { AuthzController } = DefaultHoplite;
 const {HopliteUserSchema } = HopliteUserSchema;
 const authorizationController = require('./controllers/Authorization/AuthorizationController')
+const {pwBcrypt} = HashMethods;
 //DefaultHoplite properties:
 //.AuthnController ==> .testAuthn(str)
 //.AuthzController ==> .testAuthz(str)
@@ -50,6 +51,10 @@ function testMiddleWare(queriedInfo){
 
 app.use('/api', apiRouter);
 app.post('/testAuthz' , testMiddleWare(queriedInfo) ,AuthnController.authenticate(user,ruleset) ,AuthzController.authorizeCookie,(req,res)=>{
+  
+})
+
+app.post('/testBcryt', HashMethods.,(req,res)=>{
   
 })
 // // check cookie
