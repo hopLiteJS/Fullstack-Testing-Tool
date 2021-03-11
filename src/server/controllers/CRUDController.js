@@ -13,19 +13,7 @@ class CRUDControllerBlueprint {
       console.log(error);
     }
   }
-  // async authenticateUser(req, res, next) {
-  //   const { inputUsername, inputPassword } = req.body;
-  //   const queryString = `SELECT * FROM credential WHERE username = '${inputUsername}'`;
-  //   const result = await db.query(queryString);
-  //   console.log("result.rows[0]: ", result.rows[0]);
 
-  //   const { username, password } = result.rows[0];
-
-  //   if (inputUsername === username && inputPassword === password) {
-  //     setCookie(res);
-  //   }
-  //   next();
-  // }
 
   async updateItem(req, res, next) {//3
     const name = req.body.username;
@@ -48,7 +36,6 @@ class CRUDControllerBlueprint {
         // res.locals.username = data.rows;
         // return next(); 
       })
-
   }
 
   deleteItem(req, res, next) {//4

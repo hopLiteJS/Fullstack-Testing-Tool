@@ -1,18 +1,19 @@
 const express = require('express');
+
 const app = express();
 const port = 3000;
 const path = require('path');
-const apiRouter = require('./routes/ApiRouter');
 const cookieParser = require('cookie-parser');
-const { DefaultHoplite }  = require('hoplitejs');
-DefaultHoplite.test('hello people');
+const { DefaultHoplite } = require('hoplitejs');
+const { HashMethods } = require('hoplitejs');
+const {pwBcrypt, pwArgon2} = HashMethods;
+const apiRouter = require('./routes/ApiRouter');
+
+// DefaultHoplite.test('hello people');
 const { AuthnController } = DefaultHoplite;
 const { AuthzController } = DefaultHoplite;
-const {HopliteUserSchema } = HopliteUserSchema;
+// const {HopliteUserSchema } = HopliteUserSchema;
 const authorizationController = require('./controllers/Authorization/AuthorizationController')
-//DefaultHoplite properties:
-//.AuthnController ==> .testAuthn(str)
-//.AuthzController ==> .testAuthz(str)
 app.use(cookieParser());
 AuthzController.testAuthz("auth works")
 AuthnController.testAuthn("authn works")
@@ -20,7 +21,19 @@ AuthnController.testAuthn("authn works")
 // const session = require('express-session');
 // const { v4: uuid } = require('uuid');
 
-//connecting to api router
+
+// const library = require('hoplitejs');
+
+// Testing bcrypt:
+const pass = 'tedd';
+// console.log(pwBcrypt(pass));
+function f(){
+  return pwBcrypt(pass);
+ }
+
+// console.log('f()', f());
+
+// connecting to api router
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -37,15 +50,22 @@ const ruleset = {
 cookie:true
 }
 
-function testMiddleWare(queriedInfo){
- HopliteUserSchema(queriedInfo.username, queriedInfo.password, queriedInfo.privilege)
- next()
-}
+// function testMiddleWare(queriedInfo){
+// //  HopliteUserSchema(queriedInfo.username, queriedInfo.password, queriedInfo.privilege)
+//  next()
+// }
 
-app.use('/api', apiRouter);
-app.post('/testAuthz' , testMiddleWare(queriedInfo) ,AuthnController.authenticate(user,ruleset) ,AuthzController.authorizeCookie,(req,res)=>{
+// app.use('/api', apiRouter);
+// app.post('/testAuthz', testMiddleWare(queriedInfo) ,AuthnController.authenticate(user,ruleset) ,AuthzController.authorizeCookie,(req,res)=>{
   
-})
+// })
+
+// app.post('/testAuthz', testMiddleWare(queriedInfo) ,AuthnController.authenticate(user,ruleset) ,AuthzController.authorizeCookie,(req,res)=>{
+  
+// })
+
+
+
 // // check cookie
 // function checkSignIn(req, res, next) {
 // console.log("🚀 ~ file: index.js ~ line 35 ~ DefaultHoplite", DefaultHoplite)
@@ -65,6 +85,6 @@ app.post('/testAuthz' , testMiddleWare(queriedInfo) ,AuthnController.authenticat
 // })
 
 
-//did you guys delete app.listen?
-//Don't touch this.
+  //did you guys delete app.listen?
+  //Don't touch this.
 app.listen(port, console.log(`Server listening on Port ${port}`))
